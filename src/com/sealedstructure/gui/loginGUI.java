@@ -40,7 +40,7 @@ public class loginGUI extends Application implements EventHandler<ActionEvent> {
     public void start(Stage primaryStage) {
 
         /*Check if this is the first login*/
-        conf =  IOFunctions.IO_FUNCTIONS_INSTANCE.readConfigFile();
+        conf = (Config) IOFunctions.IO_FUNCTIONS_INSTANCE.readObjectFile("config.dat");
 
         registered = (conf != null);
 
@@ -131,10 +131,7 @@ public class loginGUI extends Application implements EventHandler<ActionEvent> {
 
     /*This function will load any file into the TA*/
     private void loadText(TextArea ta,String file){
-        String result = "";
-        for(String s : IOFunctions.IO_FUNCTIONS_INSTANCE.readFile(file)){
-            result += s;
-        }
+        String result = IOFunctions.IO_FUNCTIONS_INSTANCE.readFile(file);
 
         ta.setText(result);
     }
@@ -186,7 +183,7 @@ public class loginGUI extends Application implements EventHandler<ActionEvent> {
                 try {
                     int year = Integer.parseInt(t4.getText());
                     conf = new Config(year, v1, v2, v3);
-                    IOFunctions.IO_FUNCTIONS_INSTANCE.writeConfigFile(conf);
+                    IOFunctions.IO_FUNCTIONS_INSTANCE.writeObjectFile(conf,"config.dat");
                     ftsStage.close();
                 } catch (NumberFormatException er) {
                     SupportGUIFunctions.SUPPORT_GUI_FUNCTIONS.customPrompt("ERROR", "Please insert a valid Year of Birth");
@@ -221,7 +218,6 @@ public class loginGUI extends Application implements EventHandler<ActionEvent> {
 
     /*Function that checks the Password and opens the Bunker list if it is correct*/
     private void checkPassword(String s){
-        System.out.println("here");
         if(s.equals(conf.getPassword())) {
             currentStage.close();
             currentStage = new BunkersGUI().display();

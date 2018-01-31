@@ -85,9 +85,9 @@ public class Generator {
 
         /*Populate the Array with Binary Digits, this will be the Key*/
         for(int v = 0; v < binaryOffsetValues.length; v++){
-            binaryOffsetValues[v] = (int)(Math.random())+1;
-            System.out.println(binaryOffsetValues[v]);
+            binaryOffsetValues[v] = (int)(Math.random()+0.5);
         }
+        System.out.println("Key : " + binaryOffsetValues);
 
         /*Convert each Character into a Binary Value, and XOR it with the Key*/
         for(int x = 0; x < message.length(); x++){
@@ -150,29 +150,10 @@ public class Generator {
 
     }
 
-    public void hardDecrypt(String message,String key){
-        String newMessage = "";
-        Integer[] binaryOffsetValues = new Integer[BINARY_ENCRYPT_KEYSIZE];
-
-        /*Populate the Array with Binary Digits, this will be the Key*/
-        for(int v = 0; v < binaryOffsetValues.length; v++){
-            binaryOffsetValues[v] = Integer.parseInt(""+key.charAt(v));
-        }
-
-        /*Convert each Character into a Binary Value, and XOR it with the Key*/
-        for(int x = 0; x < message.length(); x++){
-            String binaryValue = Integer.toBinaryString(message.charAt(x));
-            String finalBinaryValues = "";
-
-            for(int y = 0; y < binaryValue.length(); y++){
-                finalBinaryValues+=Integer.parseInt(binaryValue.charAt(y) +"")^binaryOffsetValues[y];
-            }
-
-            newMessage += finalBinaryValues;
-
-        }
-
-        System.out.println("Decrypted : " + newMessage);
+    public void hardDecrypt(String message,String key) {
+    //Divide the message by segments with the same size as the key
+    //Calculate ASCII value of that same segment -> Convert into a letter.
+    //Add that to the final result.
     }
 
 
@@ -183,6 +164,7 @@ public class Generator {
 
     /*Testing*/
     public static void main(String[] args){
+        getINSTANCE().hardEncryption("UMA BOLA DE FUTEBOL");
 
     }
 
