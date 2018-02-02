@@ -38,6 +38,7 @@ public class BunkersGUI {
         }
 
         for(Object o : IOFunctions.IO_FUNCTIONS_INSTANCE.readMultipleObjectsFile("bunkers.txt")){
+            System.out.println("Adding" + o);
             leftLayout.getChildren().add(new Button(((Bunker)o).getName()));
         }
 

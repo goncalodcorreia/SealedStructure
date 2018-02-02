@@ -86,8 +86,9 @@ public class Generator {
         /*Populate the Array with Binary Digits, this will be the Key*/
         for(int v = 0; v < binaryOffsetValues.length; v++){
             binaryOffsetValues[v] = (int)(Math.random()+0.5);
+            System.out.println("Key : " + binaryOffsetValues[v]);
         }
-        System.out.println("Key : " + binaryOffsetValues);
+
 
         /*Convert each Character into a Binary Value, and XOR it with the Key*/
         for(int x = 0; x < message.length(); x++){
@@ -96,11 +97,12 @@ public class Generator {
             System.out.println(binaryValue);
 
             for(int y = 0; y < binaryValue.length(); y++){
+                System.out.println(binaryValue.charAt(y) + "Xor with " + binaryOffsetValues[y]);
                 finalBinaryValues+=Integer.parseInt(binaryValue.charAt(y) +"")^binaryOffsetValues[y];
             }
 
-            newMessage += finalBinaryValues;
-            uncryptedMessage += binaryValue;
+            newMessage += finalBinaryValues; //Message with the XOR
+            uncryptedMessage += binaryValue; //Raw Messages without XOR
 
         }
 
@@ -149,11 +151,44 @@ public class Generator {
         }
 
     }
-
+    /*This function should decrypt binary messages given the key*/
     public void hardDecrypt(String message,String key) {
-    //Divide the message by segments with the same size as the key
-    //Calculate ASCII value of that same segment -> Convert into a letter.
-    //Add that to the final result.
+        //Divide the message by segments with the same size as the key
+        //Calculate ASCII value of that same segment -> Convert into a letter.
+        //Add that to the final result.
+
+        /*This portion divides the message into segments with the key size, and adds them to the temporary character
+        array which will hold as many segments as the original message's letters*/
+        String[] character = new String[message.length() / key.length()];
+        String result = "";
+
+        int index = 0;
+        for (int x = 0; x < message.length(); x += key.length()) {
+            String data = "";
+            for (int y = 0; y < key.length(); y++) {
+                //System.out.println(message.charAt(x + y) + "XOR WTIH " + key.charAt(y));
+                data += Integer.parseInt(message.charAt(x + y)+"")^Integer.parseInt(key.charAt(y)+"");
+            }
+            character[index] = data;
+            index++;
+        }
+
+        /*This portion will represent the calculation of the ASCII Value of each segment, essentially converting the message into chars*/
+
+        for (int x = 0; x < character.length; x++) {
+            int value = 0;
+            System.out.println(character[x]);
+            for (int y = character[x].length()-1; y > -1 ; y--) { //Reverse Iteration should fix the problem, but i can't fix it at this point.
+                //System.out.println("CharAtY" + character[x].charAt(y) );
+                if (Integer.parseInt(character[x].charAt(y)+"") == 1) {
+                    value += Math.pow(2, (character[x].length()-y-1));
+                }
+
+            }
+            System.out.println(value);
+            result += (char)value;
+        }
+        System.out.println("Decrypted : " + result);
     }
 
 
@@ -164,7 +199,6 @@ public class Generator {
 
     /*Testing*/
     public static void main(String[] args){
-        getINSTANCE().hardEncryption("UMA BOLA DE FUTEBOL");
 
     }
 

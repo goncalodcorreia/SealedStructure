@@ -15,7 +15,6 @@ public class SupportGUIFunctions {
     public static final int ALERT_WINDOW_HEIGHT = 100;
 
 
-
     public void customPrompt(String title,String text){
         Stage customPromptStage = new Stage();
 
